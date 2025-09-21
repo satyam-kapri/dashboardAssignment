@@ -1,5 +1,7 @@
 # Dashboard Assignment
 
+<!-- Insignificant change to trigger commit -->
+
 This project is a modern web application built with a robust and popular tech stack, focusing on performance, maintainability, and a rich user experience.
 
 ## Tech Stack

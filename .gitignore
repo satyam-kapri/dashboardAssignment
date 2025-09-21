@@ -1,4 +1,6 @@
-# Logs
+# Logs here
+
+# Added a comment to trigger a commit
 logs
 *.log
 npm-debug.log*
@@ -12,7 +14,7 @@ dist
 dist-ssr
 *.local
 
-# Editor directories and files
+# Editor directories and files here
 .vscode/*
 !.vscode/extensions.json
 .idea
