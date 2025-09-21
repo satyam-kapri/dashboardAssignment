@@ -13,22 +13,36 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider defaultTheme="light" storageKey="dashboard-theme">
+    <ThemeProvider defaultTheme="dark" storageKey="dashboard-theme">
       <TooltipProvider>
         <Toaster />
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={
-              <DashboardLayout>
-                <Dashboard />
-              </DashboardLayout>
-            } />
-            <Route path="/orders" element={
-              <DashboardLayout>
-                <Orders />
-              </DashboardLayout>
-            } />
+            <Route
+              path="/"
+              element={
+                <DashboardLayout>
+                  <Dashboard />
+                </DashboardLayout>
+              }
+            />
+            <Route
+              path="/orders"
+              element={
+                <DashboardLayout>
+                  <Orders />
+                </DashboardLayout>
+              }
+            />
+            <Route
+              path="/ecommerce"
+              element={
+                <DashboardLayout>
+                  <Dashboard />
+                </DashboardLayout>
+              }
+            />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

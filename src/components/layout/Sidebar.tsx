@@ -16,15 +16,16 @@ import {
   Shield,
   MessageSquare,
   Share2,
-} from 'lucide-react';
-import { useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+} from "lucide-react";
+import { useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import {
   Sidebar as SidebarComponent,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -32,80 +33,79 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   useSidebar,
-} from '@/components/ui/sidebar';
-import { cn } from '@/lib/utils';
-
+} from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
 const navigationItems = [
   {
-    title: 'Favorites',
+    title: "Favorites",
     items: [
-      { title: 'Overview', url: '/', icon: LayoutDashboard },
-      { title: 'Projects', url: '/projects', icon: Briefcase },
+      { title: "Order List", url: "/orders", icon: FileText },
+      { title: "Projects", url: "/projects", icon: Briefcase },
     ],
   },
   {
-    title: 'Recently',
+    title: "Recently",
     items: [
-      { title: 'Overview', url: '/', icon: LayoutDashboard },
-      { title: 'Projects', url: '/projects', icon: Briefcase },
+      { title: "Order List", url: "/orders", icon: FileText },
+      { title: "Projects", url: "/projects", icon: Briefcase },
     ],
   },
 ];
 
 const dashboardItems = [
   {
-    title: 'Default',
-    url: '/',
-    icon: LayoutDashboard,
+    title: "eCommerce",
+    url: "/ecommerce/",
+    icon: ShoppingBag,
     isActive: true,
   },
   {
-    title: 'eCommerce',
-    url: '/orders',
-    icon: ShoppingBag,
+    title: "Order List",
+    url: "/orders",
+    icon: FileText,
   },
   {
-    title: 'Projects',
-    url: '/projects',
+    title: "Projects",
+    url: "/projects",
     icon: Briefcase,
   },
   {
-    title: 'Online Courses',
-    url: '/courses',
+    title: "Online Courses",
+    url: "/courses",
     icon: BookOpen,
   },
 ];
 
 const pageItems = [
   {
-    title: 'User Profile',
+    title: "User Profile",
     icon: User,
     subItems: [
-      { title: 'Overview', url: '/profile' },
-      { title: 'Projects', url: '/profile/projects' },
-      { title: 'Campaigns', url: '/profile/campaigns' },
-      { title: 'Documents', url: '/profile/documents' },
-      { title: 'Followers', url: '/profile/followers' },
+      { title: "Overview", url: "/profile" },
+      { title: "Projects", url: "/profile/projects" },
+      { title: "Campaigns", url: "/profile/campaigns" },
+      { title: "Documents", url: "/profile/documents" },
+      { title: "Followers", url: "/profile/followers" },
     ],
   },
   {
-    title: 'Account',
-    url: '/account',
+    title: "Account",
+    url: "/account",
     icon: Shield,
   },
   {
-    title: 'Corporate',
-    url: '/corporate',
+    title: "Corporate",
+    url: "/corporate",
     icon: Briefcase,
   },
   {
-    title: 'Blog',
-    url: '/blog',
+    title: "Blog",
+    url: "/blog",
     icon: FileText,
   },
   {
-    title: 'Social',
-    url: '/social',
+    title: "Social",
+    url: "/social",
     icon: Share2,
   },
 ];
@@ -124,8 +124,8 @@ function CollapsibleMenu({ item }: CollapsibleMenuProps) {
   const location = useLocation();
   const { open } = useSidebar();
 
-  const hasActiveSubItem = item.subItems?.some(subItem => 
-    location.pathname === subItem.url
+  const hasActiveSubItem = item.subItems?.some(
+    (subItem) => location.pathname === subItem.url
   );
 
   if (item.subItems) {
@@ -142,9 +142,12 @@ function CollapsibleMenu({ item }: CollapsibleMenuProps) {
             <item.icon className="h-4 w-4" />
             {open && <span>{item.title}</span>}
           </div>
-          {open && (
-            isOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />
-          )}
+          {open &&
+            (isOpen ? (
+              <ChevronDown className="h-4 w-4" />
+            ) : (
+              <ChevronRight className="h-4 w-4" />
+            ))}
         </SidebarMenuButton>
         {isOpen && open && (
           <SidebarMenuSub>
@@ -156,7 +159,8 @@ function CollapsibleMenu({ item }: CollapsibleMenuProps) {
                     className={({ isActive }) =>
                       cn(
                         "w-full text-sm",
-                        isActive && "bg-accent text-accent-foreground font-medium"
+                        isActive &&
+                          "bg-accent text-accent-foreground font-medium"
                       )
                     }
                   >
@@ -196,6 +200,12 @@ export function Sidebar() {
 
   return (
     <SidebarComponent className="border-r border-border">
+      <SidebarHeader className="p-4">
+        <div className="flex items-center gap-2">
+          <User className="h-8 w-8" />
+          {open && <span className="text-lg font-semibold">ByeWind</span>}
+        </div>
+      </SidebarHeader>
       <SidebarContent className="px-3 py-4">
         {/* Favorites and Recently sections */}
         {navigationItems.map((section) => (
@@ -215,7 +225,8 @@ export function Sidebar() {
                         className={({ isActive }) =>
                           cn(
                             "flex items-center gap-2 text-sm",
-                            isActive && "bg-accent text-accent-foreground font-medium"
+                            isActive &&
+                              "bg-accent text-accent-foreground font-medium"
                           )
                         }
                       >
@@ -243,11 +254,12 @@ export function Sidebar() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink
-                      to={item.url}
+                      to={item.url!}
                       className={({ isActive }) =>
                         cn(
                           "flex items-center gap-2 text-sm",
-                          isActive && "bg-accent text-accent-foreground font-medium"
+                          isActive &&
+                            "bg-accent text-accent-foreground font-medium"
                         )
                       }
                     >

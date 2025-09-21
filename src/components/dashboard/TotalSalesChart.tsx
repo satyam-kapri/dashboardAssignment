@@ -1,89 +1,105 @@
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
+"use client";
 
-const salesData = [
-  { name: 'Direct', value: 300.56, color: 'hsl(var(--chart-1))' },
-  { name: 'Affiliate', value: 135.18, color: 'hsl(var(--chart-3))' },
-  { name: 'Sponsored', value: 154.02, color: 'hsl(var(--chart-4))' },
-  { name: 'E-mail', value: 48.96, color: 'hsl(var(--chart-5))' },
-];
-
-const RADIAN = Math.PI / 180;
-
-interface LabelProps {
-  cx: number;
-  cy: number;
-  midAngle: number;
-  innerRadius: number;
-  outerRadius: number;
-  percent: number;
-}
-
-const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }: LabelProps) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-  const x = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-  return (
-    <text 
-      x={x} 
-      y={y} 
-      fill="white" 
-      textAnchor={x > cx ? 'start' : 'end'} 
-      dominantBaseline="central"
-      className="text-xs font-medium"
-    >
-      {`${(percent * 100).toFixed(0)}%`}
-    </text>
-  );
-};
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import { useTheme } from "@/components/ThemeProvider";
 
 export function TotalSalesChart() {
-  const total = salesData.reduce((sum, item) => sum + item.value, 0);
+  const { theme } = useTheme();
+
+  const salesData = [
+    {
+      name: "Direct",
+      value: 300.56,
+      color: theme === "dark" ? "#60A5FA" : "#000000",
+    },
+    {
+      name: "Affiliate",
+      value: 135.18,
+      color: theme === "dark" ? "#3B82F6" : "#A7F3D0",
+    },
+    {
+      name: "Sponsored",
+      value: 154.02,
+      color: theme === "dark" ? "#2563EB" : "#93C5FD",
+    },
+    {
+      name: "E-mail",
+      value: 48.96,
+      color: theme === "dark" ? "#1D4ED8" : "#BAE6FD",
+    },
+  ];
+
+  // Custom tooltip bubble
+  const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      const percent = (
+        (payload[0].value /
+          salesData.reduce((sum, entry) => sum + entry.value, 0)) *
+        100
+      ).toFixed(1);
+
+      return (
+        <div className="px-2 py-1 rounded-md bg-gray-800 text-white text-xs font-medium shadow">
+          {percent}%
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const strokeColor = theme === "dark" ? "#1F2937" : "#ffffff";
+  const textColor = theme === "dark" ? "#E5E7EB" : "#4B5563";
 
   return (
-    <div className="chart-container">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold">Total Sales</h3>
-        <div className="text-right">
-          <p className="text-2xl font-bold">38.6%</p>
-          <p className="text-sm text-muted-foreground">Growth</p>
-        </div>
-      </div>
+    <div className="bg-slate-100 rounded-2xl p-6 dark:bg-gray-800">
+      <h3 className="text-lg font-semibold mb-2">Total Sales</h3>
 
-      <div className="h-64">
+      {/* Donut Chart */}
+      <div className="h-52">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={salesData}
               cx="50%"
               cy="50%"
-              labelLine={false}
-              label={renderCustomizedLabel}
+              innerRadius={50}
               outerRadius={80}
-              fill="#8884d8"
+              paddingAngle={3}
               dataKey="value"
-              strokeWidth={2}
-              stroke="hsl(var(--background))"
+              stroke={strokeColor}
+              strokeWidth={4}
+              cornerRadius={10} // 👈 Rounded corners here
             >
               {salesData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
             </Pie>
+            <Tooltip
+              content={<CustomTooltip />}
+              cursor={false}
+              wrapperStyle={{ outline: "none" }}
+            />
           </PieChart>
         </ResponsiveContainer>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 mt-4">
+      {/* Legend */}
+      <div className="space-y-3 mt-3">
         {salesData.map((item) => (
-          <div key={item.name} className="flex items-center justify-between p-2 rounded-lg bg-muted/20">
+          <div
+            key={item.name}
+            className="flex items-center justify-between text-sm"
+          >
             <div className="flex items-center gap-2">
-              <div 
-                className="w-3 h-3 rounded-full" 
+              <span
+                className="w-3 h-3 rounded-full"
                 style={{ backgroundColor: item.color }}
               />
-              <span className="text-sm text-muted-foreground">{item.name}</span>
+              <span className="text-slate-700 dark:text-gray-300">
+                {item.name}
+              </span>
             </div>
-            <span className="text-sm font-semibold">${item.value}</span>
+            <span className="font-semibold">${item.value}</span>
           </div>
         ))}
       </div>

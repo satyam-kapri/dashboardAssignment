@@ -1,34 +1,71 @@
-import { useState } from 'react';
-import { Plus, Filter, ArrowUpDown, Search, ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Checkbox } from '@/components/ui/checkbox';
-import { useDashboardStore } from '@/store/dashboardStore';
-import { cn } from '@/lib/utils';
+import { useState } from "react";
+import {
+  Plus,
+  Filter,
+  ArrowUpDown,
+  Search,
+  ChevronLeft,
+  ChevronRight,
+  MoreHorizontal,
+  CalendarDays,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useDashboardStore } from "@/store/dashboardStore";
+import { cn } from "@/lib/utils";
 
 const statusConfig = {
-  'in-progress': { label: 'In Progress', className: 'bg-blue-100 text-blue-700 hover:bg-blue-100' },
-  'complete': { label: 'Complete', className: 'bg-green-100 text-green-700 hover:bg-green-100' },
-  'pending': { label: 'Pending', className: 'bg-orange-100 text-orange-700 hover:bg-orange-100' },
-  'approved': { label: 'Approved', className: 'bg-purple-100 text-purple-700 hover:bg-purple-100' },
-  'rejected': { label: 'Rejected', className: 'bg-gray-100 text-gray-700 hover:bg-gray-100' }
+  "in-progress": {
+    label: "In Progress",
+    dotColor: "bg-blue-500",
+    textColor: "text-blue-700",
+  },
+  complete: {
+    label: "Complete",
+    dotColor: "bg-green-500",
+    textColor: "text-green-700",
+  },
+  pending: {
+    label: "Pending",
+    dotColor: "bg-orange-500",
+    textColor: "text-orange-700",
+  },
+  approved: {
+    label: "Approved",
+    dotColor: "bg-purple-500",
+    textColor: "text-purple-700",
+  },
+  rejected: {
+    label: "Rejected",
+    dotColor: "bg-gray-500",
+    textColor: "text-gray-700",
+  },
 };
 
 export default function Orders() {
   const { orders } = useDashboardStore();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  const filteredOrders = orders.filter(order =>
-    order.orderId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    order.user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    order.project.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    order.address.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredOrders = orders.filter(
+    (order) =>
+      order.orderId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.project.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      order.address.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
@@ -37,9 +74,9 @@ export default function Orders() {
   const currentOrders = filteredOrders.slice(startIndex, endIndex);
 
   const toggleOrderSelection = (orderId: string) => {
-    setSelectedOrders(prev =>
+    setSelectedOrders((prev) =>
       prev.includes(orderId)
-        ? prev.filter(id => id !== orderId)
+        ? prev.filter((id) => id !== orderId)
         : [...prev, orderId]
     );
   };
@@ -48,7 +85,7 @@ export default function Orders() {
     setSelectedOrders(
       selectedOrders.length === currentOrders.length
         ? []
-        : currentOrders.map(order => order.id)
+        : currentOrders.map((order) => order.id)
     );
   };
 
@@ -71,7 +108,7 @@ export default function Orders() {
               <ArrowUpDown className="h-4 w-4" />
             </Button>
           </div>
-          
+
           <div className="relative w-64">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
@@ -88,16 +125,31 @@ export default function Orders() {
             <TableRow>
               <TableHead className="w-12">
                 <Checkbox
-                  checked={selectedOrders.length === currentOrders.length && currentOrders.length > 0}
+                  checked={
+                    selectedOrders.length === currentOrders.length &&
+                    currentOrders.length > 0
+                  }
                   onCheckedChange={toggleAllOrders}
                 />
               </TableHead>
-              <TableHead className="text-muted-foreground font-medium">Order ID</TableHead>
-              <TableHead className="text-muted-foreground font-medium">User</TableHead>
-              <TableHead className="text-muted-foreground font-medium">Project</TableHead>
-              <TableHead className="text-muted-foreground font-medium">Address</TableHead>
-              <TableHead className="text-muted-foreground font-medium">Date</TableHead>
-              <TableHead className="text-muted-foreground font-medium">Status</TableHead>
+              <TableHead className="text-muted-foreground font-medium">
+                Order ID
+              </TableHead>
+              <TableHead className="text-muted-foreground font-medium">
+                User
+              </TableHead>
+              <TableHead className="text-muted-foreground font-medium">
+                Project
+              </TableHead>
+              <TableHead className="text-muted-foreground font-medium">
+                Address
+              </TableHead>
+              <TableHead className="text-muted-foreground font-medium">
+                Date
+              </TableHead>
+              <TableHead className="text-muted-foreground font-medium">
+                Status
+              </TableHead>
               <TableHead className="w-12"></TableHead>
             </TableRow>
           </TableHeader>
@@ -116,30 +168,47 @@ export default function Orders() {
                 <TableCell>
                   <div className="flex items-center gap-3">
                     <Avatar className="h-8 w-8">
-                      <AvatarImage src={order.user.avatar} alt={order.user.name} />
+                      <AvatarImage
+                        src={order.user.avatar}
+                        alt={order.user.name}
+                      />
                       <AvatarFallback>
-                        {order.user.name.split(' ').map(n => n[0]).join('')}
+                        {order.user.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
                       </AvatarFallback>
                     </Avatar>
                     <span className="text-foreground">{order.user.name}</span>
                   </div>
                 </TableCell>
-                <TableCell className="text-foreground">{order.project}</TableCell>
-                <TableCell className="text-foreground">{order.address}</TableCell>
+                <TableCell className="text-foreground">
+                  {order.project}
+                </TableCell>
+                <TableCell className="text-foreground">
+                  {order.address}
+                </TableCell>
                 <TableCell className="text-muted-foreground flex items-center gap-2">
-                  <span className="text-sm">📅</span>
+                  <CalendarDays className="h-4 w-4" />
                   {order.date}
                 </TableCell>
                 <TableCell>
-                  <Badge
-                    variant="secondary"
-                    className={cn(
-                      "text-xs font-medium",
-                      statusConfig[order.status].className
-                    )}
-                  >
-                    {statusConfig[order.status].label}
-                  </Badge>
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={cn(
+                        "h-2 w-2 rounded-full",
+                        statusConfig[order.status].dotColor
+                      )}
+                    ></span>
+                    <span
+                      className={cn(
+                        "text-xs font-medium",
+                        statusConfig[order.status].textColor
+                      )}
+                    >
+                      {statusConfig[order.status].label}
+                    </span>
+                  </div>
                 </TableCell>
                 <TableCell>
                   <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
@@ -155,13 +224,13 @@ export default function Orders() {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+            onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
             disabled={currentPage === 1}
             className="h-8 w-8 p-0"
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
-          
+
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <Button
               key={page}
@@ -173,11 +242,13 @@ export default function Orders() {
               {page}
             </Button>
           ))}
-          
+
           <Button
             variant="outline"
             size="sm"
-            onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+            }
             disabled={currentPage === totalPages}
             className="h-8 w-8 p-0"
           >
