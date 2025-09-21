@@ -10,6 +10,7 @@
     "cssVariables": true,
     "prefix": ""
   },
+  "_temp_commit_trigger": "temp_value",
   "aliases": {
     "components": "@/components",
     "utils": "@/lib/utils",
