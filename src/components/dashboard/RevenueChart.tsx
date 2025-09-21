@@ -16,7 +16,7 @@ export function RevenueChart() {
   const { theme } = useTheme();
 
   const currentWeekTotal = 58211;
-  const previousWeekTotal = 68768; // matches header in screenshot
+  const previousWeekTotal = 68768;
 
   const gridStrokeColor = theme === "dark" ? "#4B5563" : "#e6edf2";
   const axisLineStrokeColor = theme === "dark" ? "#6B7280" : "#cbcbcb";
@@ -79,10 +79,7 @@ export function RevenueChart() {
               axisLine={false}
               tickLine={false}
               tick={{ fill: tickFillColor, fontSize: 13 }}
-              // no hard-coding → scale automatically to data
             />
-
-            {/* subtle blue gradient fill under previous line */}
             <defs>
               <linearGradient id="prevGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop

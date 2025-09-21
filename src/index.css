@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* SaaS Dashboard Design System - Professional theme with blue accents */
-
 @layer base {
   :root {
     /* Core Background & Text */

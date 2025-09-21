@@ -21,7 +21,6 @@ export function ProjectionsChart() {
   const { chartData } = useDashboardStore();
   const { theme } = useTheme();
 
-  // derive the "difference" so projected sits on top of actual
   const data = useMemo(
     () =>
       (chartData ?? []).map((d: any) => ({
@@ -38,9 +37,8 @@ export function ProjectionsChart() {
     return `${v}`;
   };
 
-  // Colors chosen to match the light / dark stacked look in your image
-  const actualColor = theme === "dark" ? "#60A5FA" : "#9FBBD0"; // darker bottom
-  const projColor = theme === "dark" ? "#3B82F6" : "#DDEBF6"; // lighter top
+  const actualColor = theme === "dark" ? "#60A5FA" : "#9FBBD0";
+  const projColor = theme === "dark" ? "#3B82F6" : "#DDEBF6";
   const gridStrokeColor = theme === "dark" ? "#4B5563" : "#dcf1ff";
   const axisLineStrokeColor = theme === "dark" ? "#6B7280" : "#b0b0b0";
   const tickFillColor = theme === "dark" ? "#9CA3AF" : "#9aa1a8";
@@ -74,7 +72,6 @@ export function ProjectionsChart() {
               tickFormatter={tickFormatter}
             />
 
-            {/* bottom = actual */}
             <Bar
               dataKey="actual"
               stackId="stack"
@@ -82,7 +79,6 @@ export function ProjectionsChart() {
               radius={[0, 0, 0, 0]}
             />
 
-            {/* top = projected - actual (so projected appears as darker+lighter stacked) */}
             <Bar
               dataKey="projDiff"
               stackId="stack"
@@ -92,23 +88,6 @@ export function ProjectionsChart() {
           </BarChart>
         </ResponsiveContainer>
       </div>
-
-      {/* <div className="flex justify-center gap-6 mt-4 text-sm text-muted-foreground">
-        <div className="flex items-center gap-2">
-          <div
-            className="w-3 h-3 rounded-full"
-            style={{ background: projColor }}
-          />
-          Projected
-        </div>
-        <div className="flex items-center gap-2">
-          <div
-            className="w-3 h-3 rounded-full"
-            style={{ background: actualColor }}
-          />
-          Actual
-        </div>
-      </div> */}
     </div>
   );
 }
