@@ -61,7 +61,7 @@ const dashboardItems = [
   },
   {
     title: 'eCommerce',
-    url: '/ecommerce',
+    url: '/orders',
     icon: ShoppingBag,
   },
   {

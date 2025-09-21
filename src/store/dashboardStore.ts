@@ -79,6 +79,19 @@ export interface Contact {
   status: 'online' | 'offline' | 'away';
 }
 
+export interface Order {
+  id: string;
+  orderId: string;
+  user: {
+    name: string;
+    avatar: string;
+  };
+  project: string;
+  address: string;
+  date: string;
+  status: 'in-progress' | 'complete' | 'pending' | 'approved' | 'rejected';
+}
+
 interface DashboardState {
   sidebarCollapsed: boolean;
   theme: 'light' | 'dark';
@@ -87,6 +100,7 @@ interface DashboardState {
   chartData: ChartData[];
   revenueData: RevenueData[];
   products: Product[];
+  orders: Order[];
   notifications: Notification[];
   activities: Activity[];
   contacts: Contact[];
@@ -229,6 +243,129 @@ export const useDashboardStore = create<DashboardState>((set, get) => ({
       action: 'a page in Project X',
       time: 'Feb 2, 2024',
       type: 'page'
+    }
+  ],
+  
+  orders: [
+    { 
+      id: '1', 
+      orderId: '#CM9801', 
+      user: { 
+        name: 'Natali Craig', 
+        avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612400e?w=40&h=40&fit=crop&crop=face' 
+      }, 
+      project: 'Landing Page', 
+      address: 'Meadow Lane Oakland', 
+      date: 'Just now', 
+      status: 'in-progress' 
+    },
+    { 
+      id: '2', 
+      orderId: '#CM9802', 
+      user: { 
+        name: 'Kate Morrison', 
+        avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face' 
+      }, 
+      project: 'CRM Admin pages', 
+      address: 'Larry San Francisco', 
+      date: 'A minute ago', 
+      status: 'complete' 
+    },
+    { 
+      id: '3', 
+      orderId: '#CM9803', 
+      user: { 
+        name: 'Drew Cano', 
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face' 
+      }, 
+      project: 'Client Project', 
+      address: 'Bagwell Avenue Ocala', 
+      date: '1 hour ago', 
+      status: 'pending' 
+    },
+    { 
+      id: '4', 
+      orderId: '#CM9804', 
+      user: { 
+        name: 'Orlando Diggs', 
+        avatar: 'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?w=40&h=40&fit=crop&crop=face' 
+      }, 
+      project: 'Admin Dashboard', 
+      address: 'Washburn Baton Rouge', 
+      date: 'Yesterday', 
+      status: 'approved' 
+    },
+    { 
+      id: '5', 
+      orderId: '#CM9805', 
+      user: { 
+        name: 'Andi Lane', 
+        avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face' 
+      }, 
+      project: 'App Landing Page', 
+      address: 'Nest Lane Olivette', 
+      date: 'Feb 2, 2023', 
+      status: 'rejected' 
+    },
+    { 
+      id: '6', 
+      orderId: '#CM9801', 
+      user: { 
+        name: 'Natali Craig', 
+        avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612400e?w=40&h=40&fit=crop&crop=face' 
+      }, 
+      project: 'Landing Page', 
+      address: 'Meadow Lane Oakland', 
+      date: 'Just now', 
+      status: 'in-progress' 
+    },
+    { 
+      id: '7', 
+      orderId: '#CM9802', 
+      user: { 
+        name: 'Kate Morrison', 
+        avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face' 
+      }, 
+      project: 'CRM Admin pages', 
+      address: 'Larry San Francisco', 
+      date: 'A minute ago', 
+      status: 'complete' 
+    },
+    { 
+      id: '8', 
+      orderId: '#CM9803', 
+      user: { 
+        name: 'Drew Cano', 
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face' 
+      }, 
+      project: 'Client Project', 
+      address: 'Bagwell Avenue Ocala', 
+      date: '1 hour ago', 
+      status: 'pending' 
+    },
+    { 
+      id: '9', 
+      orderId: '#CM9804', 
+      user: { 
+        name: 'Orlando Diggs', 
+        avatar: 'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?w=40&h=40&fit=crop&crop=face' 
+      }, 
+      project: 'Admin Dashboard', 
+      address: 'Washburn Baton Rouge', 
+      date: 'Yesterday', 
+      status: 'approved' 
+    },
+    { 
+      id: '10', 
+      orderId: '#CM9805', 
+      user: { 
+        name: 'Andi Lane', 
+        avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face' 
+      }, 
+      project: 'App Landing Page', 
+      address: 'Nest Lane Olivette', 
+      date: 'Feb 2, 2023', 
+      status: 'rejected' 
     }
   ],
   
