@@ -1,3 +1,5 @@
+// This is a UI component.
+
 import * as CollapsiblePrimitive from "@radix-ui/react-collapsible";
 
 const Collapsible = CollapsiblePrimitive.Root;
